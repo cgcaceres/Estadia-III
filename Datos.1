@@ -1,0 +1,50 @@
+cd /home/arlhinus/Escritorio/Datos_extract.tar.gz
+
+$ ls
+c19genonet_data_cgutierrez.txt  SNPs_CGutierrez.bed  SNPs_CGutierrez.bim  SNPs_CGutierrez.fam  SNPs_CGutierrez.log  SNPs_CGutierrez.nosex
+
+$ docker run --rm -v /home/arlhinus/Escritorio/Datos_extract.tar.gz:/data biocontainers/vcftools:0.1.15 vcftools -help
+
+#renombrar
+$ vcftools="docker run --rm -v /home/arlhinus/Escritorio/Datos_extract.tar.gz:/data biocontainers/vcftools:0.1.15 vcftools"
+
+$vcftools --vcf wolves.vcf
+
+
+#Instalacion Plink
+$ sudo apt-get update
+$ sudo apt-get install plink
+
+plink --bfile myfile1 --merge-list all_my_files.txt --make-bed --out mymerged
+plink --bfile SNPs_CGutierrez.bed --merge-list c19genonet_data_cgutierrez.txt --make-bed --out mymerged
+plink --bfile SNPs_CGutierrez.bed --bmerge-list filelist.txt --make-bed --out mymerged
+plink --file SNPs_CGutierrez.bed --merge-list filelist.txt --make-bed --out mymerged
+
+
+plink --file c19genonet_data_cgutierrez.txt --merge-list SNPs_CGutierrez.bim --make-bed --out mymerged
+plink: unknown option "--file"
+plink: unknown option "--merge-list"
+
+
+plink --file c19genonet_data_cgutierrez.txt --merge SNPs_CGutierrez.bed SNPs_CGutierrez.fam SNPs_CGutierrez.bim  --make-bed --out mymerged
+plink: unknown option "--bfile"
+plink: unknown option "--bmerge"
+
+
+
+#plink: unknown option
+
+$ ls
+c19genonet_data_cgutierrez.txt  filelist.txt  SNPs_CGutierrez.bed  SNPs_CGutierrez.bim  SNPs_CGutierrez.fam  SNPs_CGutierrez.log  SNPs_CGutierrez.nosex
+arlhinus@arlhinus-virtual-machine:~/Escritorio/Datos_extract.tar.gz$ head SNPs_CGutierrez.log
+PLINK v1.90b6.22 64-bit (16 Apr 2021)
+Options in effect:
+  --bfile /home/cyanez/1_COVID19/220221_IMPUTAR_HG38_UNIDO_COVID19/dataprocess/9_UNIR_PLINK_IMPUTADO/COVID19_merged_IMPUTED_1
+  --extract ../results/3.CGutierrez_annotate/SNPs_CGutierrez_key.txt
+  --make-bed
+  --out ../results/04.CGutierrez_extract/SNPs_CGutierrez
+
+Hostname: n001
+Working directory: /home/raverdugo/work/COVID19hg/code
+Start time: Sat Jul  2 16:48:08 2022
+
