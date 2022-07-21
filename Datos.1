@@ -48,3 +48,49 @@ Hostname: n001
 Working directory: /home/raverdugo/work/COVID19hg/code
 Start time: Sat Jul  2 16:48:08 2022
 
+############
+
+setwd("/home/arlhinus/Escritorio/PharmGKB Clinical Variants/CLinical Variants")
+data <- read.delim('/home/arlhinus/Escritorio/PharmGKB Clinical Variants/CLinical Variants/var_drug_ann.tsv', quote = "")
+dim(data)
+[1] 11109    11
+grep(",", data$Variant.Haplotypes, value=T)
+head(grep(",", data$Variant.Haplotypes, value=T))
+[1] "CYP2B6*1, CYP2B6*18"             "CYP2C19*1, CYP2C19*2"            "CYP2D6*1, CYP2D6*4"              "CYP2D6*2, CYP2D6*2xN"           
+[5] "CYP2D6*2, CYP2D6*2xN, CYP2D6*41" "CYP2D6*1, CYP2D6*10" 
+snps <- scan(what=character(), file= '/home/arlhinus/Escritorio/Datos_extract.tar.gz/SNPs_CGutierrez_snps_info.txt')
+Read 105 items
+sum(data$Variant.Haplotypes %in% snps)
+[1] 417
+head(data$Variant.Haplotypes[data$Variant.Haplotypes %in% snps])
+[1] "rs2032582" "rs1799971" "rs1799971" "rs1799971" "rs1799971" "rs4680"
+length(data$Variant.Haplotypes[data$Variant.Haplotypes %in% snps])
+[1] 417
+length(unique(data$Variant.Haplotypes[data$Variant.Haplotypes %in% snps]))
+[1] 10
+unique(data$Variant.Haplotypes[data$Variant.Haplotypes %in% snps])
+[1] "rs2032582" "rs1799971" "rs4680"    "rs9479757" "rs1042114" "rs1051660" "rs740603"  "rs1065852" "rs5758550" "rs510769" 
+colnames(data)
+[1] "Variant.Annotation.ID" "Variant.Haplotypes"    "Gene"                  "Drug.s."               "PMID"                  "Phenotype.Category"   
+[7] "Significance"          "Notes"                 "Sentence"              "Alleles"               "Specialty.Population" 
+dim(unique(data[,c("Variant.Annotation.ID", "Variant.Haplotypes", "Gene", "Drug.s.", "Significance")]))
+[1] 11109     5
+dim(unique(data[data$Variant.Haplotypes %in% snps , c("Variant.Annotation.ID", "Variant.Haplotypes", "Gene", "Drug.s.", "Significance")]))
+[1] 417   5
+head(unique(data[data$Variant.Haplotypes %in% snps , c("Variant.Annotation.ID", "Variant.Haplotypes", "Gene", "Drug.s.", "Significance")]))
+Variant.Annotation.ID Variant.Haplotypes  Gene
+71             1451206834          rs2032582 ABCB1
+73             1451206853          rs1799971 OPRM1
+144            1446898218          rs1799971 OPRM1
+166            1184753725          rs1799971 OPRM1
+167            1451159083          rs1799971 OPRM1
+169            1183682029             rs4680  COMT
+Drug.s. Significance
+71                                                                                                                "codeine","morphine"           no
+73                                                                                                                "codeine","morphine"           no
+144                                                                                                         "acetaminophen","tramadol"          yes
+166                                                                                                                           morphine           no
+167 "buprenorphine","dihydrocodeine","fentanyl","hydromorphone","methadone","morphine","oxycodone","piritramide","tilidine","tramadol"           no
+169            "buprenorphine","dihydrocodeine","fentanyl","hydromorphone","methadone","oxycodone","piritramide","tilidine","tramadol"           no
+
+
